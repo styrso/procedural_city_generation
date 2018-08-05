@@ -29,6 +29,7 @@ def createtexture(name, scale, texturetype='REPEAT'):
     mat.use_nodes=True
     imagenode = mat.node_tree.nodes.new("ShaderNodeTexImage")
     mat.node_tree.nodes.active = imagenode
+
     imagenode.image=bpy.data.images.load(os.path.join(path, "visualization", "Textures", name))
     imagenode.projection='BOX'
 #    imagenode.vector_type='Vector'
@@ -168,7 +169,9 @@ if __name__ == '__main__':
     import pickle
     global path
     import os
-    path=os.path.dirname(__file__)+"/.."
+
+    path=os.path.join(os.path.dirname(__file__), '..')
+
     ### IF ON WINDOWS, OPEN THIS FILE WITH BLENDER AND OVERWRITE       ###
     ### FOLLOWING LINE WITH YOUR PATH AND UNCOMMENT THE FOLLOWING LINE ###
     # path = "/home/jonathan/procedural_city_generation/procedural_city_generation/"
