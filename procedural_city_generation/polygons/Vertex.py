@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from config import Variables
+from .config import Variables
 plotbool=False
 try:
 

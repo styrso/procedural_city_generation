@@ -19,7 +19,7 @@ import shlex
 
 procpath=os.getcwd()+"/.."
 sys.path.append(procpath)
-sys.path.append(procpath+"/doc")
+sys.path.append(os.path.join(procpath, "doc"))
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the

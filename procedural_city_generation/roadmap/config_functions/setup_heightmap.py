@@ -20,34 +20,33 @@ def setup_heightmap(singleton, path):
         from procedural_city_generation.additional_stuff import randommap
         randommap.main(singleton.border, path)
 
-        with open(path+"/temp/"+singleton.output_name+"_heightmap.txt", 'w') as f:
+        with open(os.path.join(path, "temp", singleton.output_name+"_heightmap.txt"), 'w') as f:
             f.write("randommap_"+str(singleton.border[0])+"_"+str(singleton.border[1]))
         return 0
 
-
-    #Writes correct inuse.txt
-    with open(path+"/temp/"+singleton.output_name+"_heightmap.txt", 'w') as f:
+    # Writes correct inuse.txt
+    with open(os.path.join(path, "temp", singleton.output_name+"_heightmap.txt"), 'w') as f:
         f.write(name[0:-4]+"_"+str(singleton.border[0])+"_"+str(singleton.border[1]))
 
-    #If a txt has already been written for the input in the image, OR if the input was a .txt to begin with, simply load that txt
-    if (name[0:-4]+"_"+str(singleton.border[0])+"_"+str(singleton.border[1]) in os.listdir(path+"/temp/")):
+    # If a txt has already been written for the input in the image, OR if the input was a .txt to begin with,
+    # simply load that txt
+    if (name[0:-4]+"_"+str(singleton.border[0])+"_"+str(singleton.border[1]) in os.listdir(os.path.join(path, "temp"))):
         return 0
 
-    #If the given image has no .txt yet, write the corresponding.txt
+    # If the given image has no .txt yet, write the corresponding.txt
 
-    #Load image and resize
+    # Load image and resize
     from PIL import Image
-    img = Image.open(path+'/inputs/heightmaps/'+name)
+    img = Image.open(os.path.join(path,"inputs", "heightmaps", name))
 
-
-    #TODO: set these numbers to some file where they can be edited easier
+    # TODO: set these numbers to some file where they can be edited easier
     rsize = img.resize(((singleton.border[1]+20)*10, (singleton.border[0]+20)*10))
     array = np.asarray(rsize)
     from copy import copy
     array= np.rot90(copy(array), k=3)
 
 
-    #If image is a jpeg, all values have to be divided by 255
+    # If image is a jpeg, all values have to be divided by 255
     array=array[::, :, 0]/255.
 
     print("You have selected a heightmap which has no .txt file yet, OR the given .txt file has the wrong dimensions. The parameter heightDif will be used to describe the height difference between the lowest and the highest points on the map.")
@@ -75,7 +74,7 @@ def setup_heightmap(singleton, path):
     points=points.tolist()
 
     import pickle
-    with open(path+"/temp/"+name[0:-4]+"_"+str(singleton.border[0])+"_"+str(singleton.border[1]), "wb") as f:
+    with open(os.path.join(path, "temp", name[0:-4]+"_"+str(singleton.border[0])+"_"+str(singleton.border[1])), "wb") as f:
         f.write(pickle.dumps([points, triangles.tolist()]))
 
     return 0

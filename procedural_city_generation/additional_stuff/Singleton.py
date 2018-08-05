@@ -14,7 +14,7 @@ class Singleton:
             import json
             if modulename:
                 path=os.path.dirname(procedural_city_generation.__file__)
-                with open(path+"/inputs/"+modulename+".conf", 'r') as f:
+                with open(os.path.join(path, "inputs", modulename+".conf"), 'r') as f:
                     d=json.loads(f.read())
                 for k, v in d.items():
                     setattr(self, k, v["value"])

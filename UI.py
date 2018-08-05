@@ -4,10 +4,15 @@ import procedural_city_generation
 donemessage = "\n"+(150*"-")+"\n\t\t\t  Done, waiting for command\n"+(150*"-")+"\n"
 path = os.path.dirname(procedural_city_generation.__file__)
 sys.path.append(path)
-if not os.path.exists(path+"/temp/"):
-    os.system("mkdir "+path+"/temp")
-if not os.path.exists(path+"/outputs/"):
-    os.system("mkdir "+path+"/outputs")
+
+temp_path = os.path.join(path, "temp")
+outputs_path = os.path.join(path, "outputs")
+
+if not os.path.exists(temp_path):
+    os.makedirs(temp_path)
+
+if not os.path.exists(outputs_path):
+    os.makedirs(outputs_path)
 
 
 def setup_matplotlib():
@@ -73,7 +78,7 @@ def building_generation():
 
 
 def visualization():
-    os.system("blender --python "+path+"/visualization/blenderize.py")
+    os.system("blender --python "+ os.path.join(path, "visualization", "blenderize.py"))
     from procedural_city_generation.additional_stuff.Singleton import Singleton
     Singleton("visualization").kill()
 

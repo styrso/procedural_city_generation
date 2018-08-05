@@ -4,6 +4,7 @@ try:
 except:
     pass
 
+
 def createtexture(name, scale, texturetype='REPEAT'):
     """
     Creates a Blender Texture Object. Only Tested with Cycles Engine.
@@ -28,7 +29,7 @@ def createtexture(name, scale, texturetype='REPEAT'):
     mat.use_nodes=True
     imagenode = mat.node_tree.nodes.new("ShaderNodeTexImage")
     mat.node_tree.nodes.active = imagenode
-    imagenode.image=bpy.data.images.load(path+"/visualization/Textures/"+name)
+    imagenode.image=bpy.data.images.load(os.path.join(path, "visualization", "Textures", name))
     imagenode.projection='BOX'
 #    imagenode.vector_type='Vector'
     diffusenode=mat.node_tree.nodes["Diffuse BSDF"]
@@ -44,6 +45,7 @@ def createtexture(name, scale, texturetype='REPEAT'):
     mat.node_tree.links.new(coordsnode.outputs['Generated'], mappingnode.inputs[0])
     #materialslist.append(mat)
     return mat
+
 
 def createmesh(verts, faces, texture):
     """
@@ -63,8 +65,6 @@ def createmesh(verts, faces, texture):
     me.update(calc_edges=True)
     me.materials.append(texture)
     return ob
-
-
 
 
 def createobject(verts, faces, texname, texscale, shrinkwrap):
@@ -111,6 +111,7 @@ def createobject(verts, faces, texname, texscale, shrinkwrap):
 
     bpy.context.scene.objects.link(ob)
 
+
 def setupscenery():
     """
     Sets up the lighting and render engine.
@@ -133,6 +134,7 @@ def setupscenery():
         bpy.ops.object.lamp_add(type='SUN', location=(4.076245, 4.076245, 4.076245))
         bpy.context.scene.objects['Sun'].name = 'Lamp'
 
+
 def main(points, triangles, polygons):
     """
     Intended to run in Blender. This means that this script must be written
@@ -143,8 +145,6 @@ def main(points, triangles, polygons):
     ``blender --python /procedural_city_generation/visualization/blenderize.py``
 
     """
-
-        
     setupscenery()
 
     me=bpy.data.meshes.new('Floormesh')
@@ -157,14 +157,10 @@ def main(points, triangles, polygons):
 
     bpy.context.scene.objects.link(ob)
 
-
-
-
     floor_has_texture=False
     for poly in polygons:
         verts, faces, texname, texscale, shrinkwrap= poly
         createobject(verts, faces, texname, texscale, shrinkwrap)
-
 
 
 if __name__ == '__main__':
@@ -179,13 +175,15 @@ if __name__ == '__main__':
     import json
     global conf_values
 
-    with open(path+"/inputs/visualization.conf", 'r') as f:
+    temp_path = os.path.join(path, "temp")
+
+    with open(os.path.join(path, "inputs", "visualization.conf"), 'r') as f:
         conf_values=json.loads(f.read())
-    with open(path+"/temp/"+conf_values[u'input_name'][u'value']+"_heightmap.txt", 'r') as f:
+    with open(os.path.join(temp_path, conf_values[u'input_name'][u'value']+"_heightmap.txt"), 'r') as f:
         filename=f.read()
-    with open(path+"/temp/"+filename, 'rb') as f:
+    with open(os.path.join(temp_path, filename), 'rb') as f:
         points, triangles = pickle.loads(f.read())
 
-    with open(path+"/outputs/"+conf_values[u'input_name'][u'value']+".txt", 'rb') as f:
+    with open(os.path.join(path, "outputs", conf_values[u'input_name'][u'value']+".txt"), 'rb') as f:
         polygons=pickle.loads(f.read())
     main(points, triangles, polygons)

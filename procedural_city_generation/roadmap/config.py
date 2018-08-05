@@ -53,7 +53,7 @@ def config():
     from procedural_city_generation.roadmap.config_functions.input_image_setup import input_image_setup
     singleton.img, singleton.img2=input_image_setup(singleton.rule_image_name, singleton.density_image_name)
 
-    with open (path+"/temp/"+singleton.output_name+"_densitymap.txt", 'w') as f:
+    with open(os.path.join(path, "temp", singleton.output_name+"_densitymap.txt"), 'w') as f:
         f.write(singleton.density_image_name.split(".")[0]+"diffused.png")
 
     from procedural_city_generation.roadmap.config_functions.find_radial_centers import find_radial_centers

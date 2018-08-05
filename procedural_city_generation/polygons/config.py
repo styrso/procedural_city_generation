@@ -1,7 +1,14 @@
 from __future__ import division
 import sys
-from parent_path import parent_path
+import json
+from collections import namedtuple
+import os
+import procedural_city_generation
+from .parent_path import parent_path
+
 sys.path.append(parent_path(depth=3))
+
+
 class Variables:
     '''Singleton-Object'''
 
@@ -22,21 +29,21 @@ class Variables:
     def __getattr__(self, name):
         return getattr(self.instance, name)
 
+
 def config():
     '''Makes all necessary setups in order to run the polygon-generator'''
-    import json
-    from collections import namedtuple
-    import os
-    import procedural_city_generation
 
-    path=os.path.dirname(procedural_city_generation.__file__)
+    path = os.path.dirname(procedural_city_generation.__file__)
+
     try:
-        with open(path+"/inputs/polygons.conf", 'r') as f:
+        with open(os.path.join(path, "inputs", "polygons.conf"), 'r') as f:
             variables_string=f.read()
-    except:
-        raise Exception("Bla")
-    variables=json.loads(variables_string, object_hook= lambda d: namedtuple('X', d.keys())(*d.values()))
-    variables=Variables(variables)
+    except FileNotFoundError:
+        raise Exception("Could not read variables from " + path)
+
+    variables = json.loads(variables_string, object_hook= lambda d: namedtuple('X', d.keys())(*d.values()))
+
+    variables = Variables(variables)
     return variables
 
 

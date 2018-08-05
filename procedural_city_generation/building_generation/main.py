@@ -26,7 +26,7 @@ def main():
     singleton=Singleton("building_generation")
 
     import pickle
-    with open(path+"/temp/"+singleton.input_name+"_polygons.txt", "rb") as f:
+    with open(os.path.join(path, "temp", singleton.input_name+"_polygons.txt"), "rb") as f:
         polylist=pickle.loads(f.read())
     if gui is None:
         import matplotlib.pyplot as plt

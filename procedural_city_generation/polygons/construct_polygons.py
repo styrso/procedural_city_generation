@@ -4,7 +4,10 @@ import numpy as np
 import math
 import matplotlib
 import matplotlib.pyplot as plt
-
+import sys
+import os
+from procedural_city_generation.polygons import construct_polygons
+import procedural_city_generation
 
 
 class Wedge(object):
@@ -32,9 +35,7 @@ def getWedges(vertex_list):
             orderedconnections.append([ neighbour.selfindex, alpha])
             number_of_neighbours+=1
 
-
         orderedconnections.sort(key=itemgetter(1))
-
 
         for i in range(number_of_neighbours):
             this=orderedconnections[i-1]
@@ -51,9 +52,10 @@ def getWedges(vertex_list):
     return allWedges
 
 
-
 def getPolygon2Ds(vertex_list):
-    '''Finds all closed Polygon2Ds. The algorithm starts with Wedge A-B-C and looks for Wedge B-C-X1, C-X1-X2... A polygon is found when Xn == A'''
+    '''Finds all closed Polygon2Ds. The algorithm starts with Wedge A-B-C and looks for Wedge B-C-X1, C-X1-X2...
+    A polygon is found when Xn == A'''
+
     wedgeliste=getWedges(vertex_list)
 
     from bisect import bisect_left as search
@@ -89,24 +91,21 @@ def main(vertex_list=None):
     List of all Polygon2Ds representing Blocks
     List of all Polygon2Ds which are too large to be Lots
     Polygon2D representing the road-network'''
-    import sys
-    sys.path.append('/home/lenny/Documents/Stadtprojekt/procedural_city_generation')
+
     if vertex_list is None:
         from procedural_city_generation.additional_stuff import pickletools
 
         vertex_list=pickletools.reconstruct()
         print("Reconstructing of data structure finished")
 
-    import os
-    import procedural_city_generation
     path=os.path.dirname(procedural_city_generation.__file__)
 
-    with open(path+"/temp/border.txt", "r") as f:
+    with open(os.path.join(path, "temp", "border.txt"), "r") as f:
         border=f.read()
     border=[int(x) for x in border.split(" ") if x is not '']
 
     print("Extracting Polygon2Ds")
-    from procedural_city_generation.polygons import construct_polygons
+
     polylist=construct_polygons.getPolygon2Ds(vertex_list)
     print("Polygon2Ds extracted")
     return polylist, vertex_list

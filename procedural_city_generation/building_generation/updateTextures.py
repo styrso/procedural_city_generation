@@ -50,10 +50,10 @@ def updateTextures():
 
     import procedural_city_generation
     path=os.path.dirname(procedural_city_generation.__file__)
-    teximages=os.listdir(path+"/visualization/Textures/")
+    teximages=os.listdir(os.path.join(path, "visualization", "Textures"))
 
 
-    with open(path+"/visualization/texTable.json", 'r') as f:
+    with open(os.path.join(path, "visualization", "texTable.json"), 'r') as f:
         texTable=f.read()
     texTable=json.loads(texTable)
 

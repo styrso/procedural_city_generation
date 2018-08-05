@@ -1,6 +1,9 @@
 from __future__ import division
 from procedural_city_generation.polygons.getBlock import getBlock
 from procedural_city_generation.polygons.split_poly import split_poly
+import matplotlib.pyplot as plt
+import procedural_city_generation.polygons.construct_polygons as cp
+
 
 def divide(poly):
     """Divide polygon as many smaller polygons as possible"""
@@ -35,8 +38,6 @@ if __name__ == "__main__":
     import sys
     from procedural_city_generation.polygons.parent_path import parent_path
     sys.path.append(parent_path(depth=3))
-    import matplotlib.pyplot as plt
-    import construct_polygons as cp
     polys, vertices = cp.main()
 
     lots = getLots(polys, vertices)

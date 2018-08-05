@@ -1,4 +1,6 @@
 import os
+import numpy as np
+
 
 def parent_path(depth=1):
     """
@@ -7,11 +9,12 @@ def parent_path(depth=1):
     """
     path = os.path.abspath(__file__)
     n = 0
-    for i in xrange(1, len(path)+1):
-        if path[-i] == "/":
+    for j in np.xrange(1, len(path)+1):
+        if path[-j] == "/":
             n += 1
         if n == depth:
-            return path[:len(path)-i]
+            return path[:len(path)-j]
+
 
 if __name__ == "__main__":
     print("This path: /n" + os.path.abspath(__file__))

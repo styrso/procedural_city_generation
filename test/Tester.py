@@ -33,10 +33,10 @@ def test_dependency(name,logger):
 
 def main():
     import sys, os
-    path=os.path.abspath(os.path.dirname(__file__))+"/.."
+    path=os.path.join(os.path.abspath(os.path.dirname(__file__)), "..")
     sys.path.append(path)
     os.chdir(path)
-    loggerpath=path+"/procedural_city_generation/outputs/test.log"
+    loggerpath=os.path.join(path, "procedural_city_generation", "outputs", "test.log")
     logger = Logger(loggerpath)
     logger.info("Initiating Tests")
     logger.info("path= "+path)
@@ -61,7 +61,7 @@ def main():
     logger.info("Testing Dependencies")
 
     try:
-        with open(path+"/requirements.txt","r") as f:
+        with open(os.path.join(path, "/requirements.txt"),"r") as f:
              [test_dependency(x.split("==")[0],logger) for x in f.readlines()]
     except IOError:
         logger.error("Could not locate requirements.txt at "+os.path.abspath(path))

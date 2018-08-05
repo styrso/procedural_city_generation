@@ -8,10 +8,10 @@ def listfiles(path):
     liste=os.listdir(path)
     counter=0
     for x in liste:
-        if not os.path.isdir(path+"/"+x):
-            filelist.append(path+"/"+x)
+        if not os.path.isdir(os.path.join(path, x)):
+            filelist.append(os.path.join(path, x))
         else:
-            filelist.extend(listfiles(path+"/"+x))
+            filelist.extend(listfiles(os.path.join(path, x)))
     return filelist
 
 

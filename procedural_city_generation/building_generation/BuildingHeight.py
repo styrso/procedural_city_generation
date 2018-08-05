@@ -20,24 +20,24 @@ class BuildingHeight(object):
 
         self.path=os.path.dirname(procedural_city_generation.__file__)
         try:
-            with open(self.path+"/temp/"+savename+ "_heightmap.txt", 'r') as f:
+            with open(os.path.join(self.path, "temp", savename+ "_heightmap.txt"), 'r') as f:
                 self.border=[eval(x) for x in f.read().split("_")[-2:] if x is not '']
         except IOError:
             print("Run the previous steps in procedural_city_generation first! If this message persists, run the \"clean\" command")
             return
         if imagename ==  "diffused":
             print("Using diffused version of population density image")
-            with open(self.path+"/temp/"+savename+ "_densitymap.txt", 'r') as f:
+            with open(os.path.join(self.path, "temp", savename+ "_densitymap.txt"), 'r') as f:
                 densityname=f.read()
 
             print("Population density image is being set up")
-            self.img=self.setupimage(self.path+"/temp/"+densityname)
+            self.img=self.setupimage(os.path.join(self.path, "temp", densityname))
             print("Population density image setup is finished")
             return
         else:
             print("Looking for image in procedural_city_generation/inputs/buildingheight_pictures")
             import matplotlib.image as mpimg
-            self.img=mpimg.imread(self.path +"/inputs/buildingheight_pictures/" + imagename)
+            self.img = mpimg.imread(os.path.join(self.path, "inputs", "buildingheight_pictures", imagename))
             print("Image found")
 
 
@@ -129,7 +129,7 @@ class BuildingHeight(object):
         x = (center[0]+self.border[0])/(self.border[0]*2)
         y = (center[1]+self.border[1])/(self.border[1]*2)
 
-        height= self.img[self.img.shape[0]-y*self.img.shape[0]][x*self.img.shape[1]][0]
+        height= self.img[int(self.img.shape[0]-y*self.img.shape[0])][int(x*self.img.shape[1])][0]
         if 0<height<0.45:
             height=min(0.035+np.random.uniform(0, 1)*np.random.uniform(0, height-0.1), 0.6)
         elif 0.45<height:

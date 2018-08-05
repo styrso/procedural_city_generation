@@ -8,11 +8,11 @@ class Surface(object):
         print("Surface is being set up for getting of getSurfaceHeight")
         path=os.path.dirname(procedural_city_generation.__file__)
 
-        with open(path+"/temp/"+input_name+"_heightmap.txt", 'r') as f:
+        with open(os.path.join(path, "temp", input_name+"_heightmap.txt"), 'r') as f:
             inuse=f.read()
 
         import pickle
-        with open(path+"/temp/"+inuse, 'rb') as f:
+        with open(os.path.join(path, "temp", inuse), 'rb') as f:
             self.surface3D, triangles=pickle.loads(f.read())
         self.surface2D=np.array(self.surface3D)[::, :2]
 

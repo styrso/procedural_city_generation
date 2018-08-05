@@ -1,14 +1,21 @@
 import numpy as np
 from procedural_city_generation.additional_stuff.Singleton import Singleton
+import os
+import procedural_city_generation
+from procedural_city_generation.polygons import construct_polygons
+from procedural_city_generation.polygons.getLots import getLots as getLots
+import pickle
+from procedural_city_generation.polygons.parent_path import parent_path
+import sys
 
-gui=None
+gui = None
 
 def main(vertex_list=None):
-    '''Input: list of vertices representing the Roadmap
+    """Input: list of vertices representing the Roadmap
     Output: List of all Polygon2Ds representing Lots,
     List of all Polygon2Ds representing Blocks
     List of all Polygon2Ds which are too large to be Lots
-    Polygon2D representing the road-network'''
+    Polygon2D representing the road-network"""
     singleton=Singleton("polygons")
 
     if vertex_list is None:
@@ -17,23 +24,16 @@ def main(vertex_list=None):
         vertex_list=pickletools.reconstruct(singleton.input_name)
         print("Reconstructing of data structure finished")
 
-    import os
-    import procedural_city_generation
-    path=os.path.dirname(procedural_city_generation.__file__)
+    path = os.path.dirname(procedural_city_generation.__file__)
 
-    with open(path+"/temp/"+singleton.input_name+"_heightmap.txt", "r") as f:
-        border=[int(x) for x in f.read().split("_")[-2:] if x is not '']
+    with open(os.path.join(path, "temp", singleton.input_name+"_heightmap.txt"), "r") as f:
+        border = [int(x) for x in f.read().split("_")[-2:] if x is not '']
     print("Extracting Polygon2Ds")
-    from procedural_city_generation.polygons import construct_polygons
-    polylist=construct_polygons.getPolygon2Ds(vertex_list)
+    polylist = construct_polygons.getPolygon2Ds(vertex_list)
 
     print("Polygon2Ds extracted")
 
-
-
-
     #TODO: DISCUSS
-    from procedural_city_generation.polygons.getLots import getLots as getLots
     "%s vertices" %(len(vertex_list))
     polygons=getLots(polylist, vertex_list)
 
@@ -55,8 +55,10 @@ def main(vertex_list=None):
                     gui.update()
             gui.update()
 
-    import pickle
-    with open(os.path.dirname(procedural_city_generation.__file__)+"/temp/"+singleton.input_name+"_polygons.txt", "wb") as f:
+    with open(
+            os.path.join(
+                os.path.dirname(procedural_city_generation.__file__), "temp", singleton.input_name+"_polygons.txt"),
+            "wb") as f:
         import sys
         if sys.version[0] == "2":
             s = pickle.dumps(polygons)
@@ -66,10 +68,9 @@ def main(vertex_list=None):
 
     return 0
 
+
 if __name__ == '__main__':
-    from procedural_city_generation.polygons.parent_path import parent_path
-    import sys
     sys.path.append(parent_path(depth=3))
-    main(None)
+    main()
 
 

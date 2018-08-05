@@ -5,7 +5,7 @@ def save_vertexlist(vertex_list, name="output", savefig=0):
 
     import pickle
     try:
-        with open(path+"/temp/"+name, "wb") as f:
+        with open(os.path.join(path, "temp", name), "wb") as f:
             import sys
             if sys.version[0] == "2":
                 s = pickle.dumps(vertex_list)
@@ -38,7 +38,7 @@ def save_vertexlist(vertex_list, name="output", savefig=0):
                          color=col,
                          linewidth=width)
 
-        plt.savefig(path+"/outputs/"+name+".png")
+        plt.savefig(os.path.join(path, "outputs", name+".png"))
     else:
         print("Figure is not being saved as image, if you want to save it, change savefig option in conf.txt")
     print("New File " + name + " created in procedural_city_generation/temp/ with ", len(vertex_list), " Vertices ")
@@ -50,7 +50,7 @@ def reconstruct(path):
     try:
         import os
         import procedural_city_generation
-        fullpath = os.path.dirname(procedural_city_generation.__file__) + "/temp/" + path
+        fullpath = os.path.join(os.path.dirname(procedural_city_generation.__file__), "temp", path)
 
         import pickle
         with open(fullpath, 'rb') as f:

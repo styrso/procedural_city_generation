@@ -19,7 +19,7 @@ class Wavefront(object):
         mtllib=""
         for tex in self.textures:
             mtllib+="newmtl "+ tex + "\nKa 1 1 1\nKd 1.0 1.0 1.0\nKs 0 0 0\nmap_Ka "+path+"/visualization/Textures/"+tex+"\nmap_Kd "+path+"/visualization/Textures/"+tex +"\n"
-        with open(self.outpath+"out.mtl", 'w' ) as f:
+        with open(os.path.join(self.outpath, "out.mtl"), 'w' ) as f:
             f.write(mtllib)
         return 0
 
@@ -40,7 +40,7 @@ class Wavefront(object):
 
             self.n_vertices+=len(polygon.verts)
 
-        with open(self.outpath+"out.obj", 'w') as f:
+        with open(os.path.join(self.outpath, "out.obj"), 'w') as f:
             f.write(out)
         return 0
 
