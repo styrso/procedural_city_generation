@@ -14,7 +14,7 @@ else:
 
 def walls_from_poly(poly2d):
     """
-    Creates a wall object from a Polygon3D Object by converting
+    Creates a wall object from a Polygon2D Object by converting
     Poly.vertices from 2D-Arrays to 3D, np.array([x, y])->np.array([x, y, 0])
 
     Parameters
