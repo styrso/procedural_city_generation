@@ -31,6 +31,7 @@ class Ui_MainWindow(object):
         self.gridLayout = QtGui.QGridLayout(self.Centralwidget)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.console = QtGui.QPlainTextEdit(self.Centralwidget)
+        self.console.textChanged.connect(self.scroll_console)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -267,5 +268,9 @@ class Ui_MainWindow(object):
         self.clean_directories.setText(_translate("MainWindow", "Clean Directories", None))
         self.run_tests.setText(_translate("MainWindow", "Run Tests", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.advanced_tab), _translate("MainWindow", "Advanced", None))
+
+    def scroll_console(self):
+        self.console.moveCursor(QtGui.QTextCursor.End)
+        self.console.ensureCursorVisible()
 
 from GUI import matplotlibWidget
