@@ -90,7 +90,7 @@ def main():
             else:
                 walls = walls_from_poly(poly)
 
-            # TODO: make abhaengig von height
+            # TODO: make conditional on height
             if housebool:
                 factor = np.random.uniform(singleton.scalefactor_min_house, singleton.scalefactor_max_house)
                 if not poly.is_convex:
