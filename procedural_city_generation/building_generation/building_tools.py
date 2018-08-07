@@ -271,7 +271,7 @@ def verticalsplit(buildingheight, floorheight):
         Each character stands for one "building element" where:
         l=ledge
         f=floor
-        b=base (Erdgeschoss)
+        b=base (ground floor)
         r=roof
     """
 
