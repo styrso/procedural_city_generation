@@ -56,20 +56,28 @@ def randomcut(walls, housebool):
         if (not housebool) or (random.uniform(0, 1)<0.5):
             if n>20:
                 if n<35:
+                    print('single ccut')
                     return Ccut(walls, a1, a2, s)
                 elif n<47:
+                    print('single hcut')
                     return Hcut(walls, a1, a2, s)
                 elif n<56:
+                    print('single xcut')
                     return Xcut(walls, a1, a2, s)
                 elif n<68:
+                    print('single lcut')
                     return Lcut(walls, a1, a2, s)
                 elif n<77:
+                    print('single tcut')
                     return Tcut(walls, a1, a2, s)
                 elif n<87:
+                    print('single ycut')
                     return Ycut(walls, a1, a2, s)
                 elif n<95:
+                    print('single hcut2')
                     return Hcut2(walls, a1, a2, s)
                 else:
+                    print('single ccut2')
                     return Ccut2(walls, a1, a2, s)
         return walls
     #Those that do not, will create random combinations through Lcut and Ccut
@@ -111,6 +119,7 @@ def Zcut(walls, dist1, dist2, side):
     -------
     procedural_city_generation.building_generation.walls object
     """
+    print('Zcut to input with' + str(len(walls.getWalls())) + ' walls')
     side=(side%2)+2
     v2=(walls.vertices[side]-walls.vertices[side-1])*dist2
     v1=(walls.vertices[side-2]-walls.vertices[side-1])*dist1
@@ -146,6 +155,7 @@ def Lcut(walls, dist1, dist2, side, v1=None, v2=None):
     -------
     procedural_city_generation.building_generation.walls object
     """
+    print('Lcut to input with' + str(len(walls.getWalls())) + ' walls')
     verts=walls.vertices
     v1=v1 if (v1 is not None) else (verts[side-2]-verts[side-1])*dist1
     v2=v2 if (v2 is not None) else (verts[side]-verts[side-1])*dist2
@@ -180,6 +190,7 @@ def Ccut(walls, dist1, dist2, side):
     -------
     procedural_city_generation.building_generation.walls object
     """
+    print('Ccut to input with' + str(len(walls.getWalls())) +' walls')
     if dist2<dist1:
         dist1, dist2=dist2, dist1
     a=walls.vertices[side]
@@ -218,6 +229,7 @@ def Tcut(walls, dist1, dist2, side):
     -------
     procedural_city_generation.building_generation.walls object
     """
+    print('Tcut to input with' + str(len(walls.getWalls())) + ' walls')
     side=(side%2)+2
     v2=(walls.vertices[side]-walls.vertices[side-1])
     v1=(walls.vertices[side-2]-walls.vertices[side-1])
@@ -279,7 +291,7 @@ def Hcut(walls, dist1, dist2, side):
     -------
     procedural_city_generation.building_generation.walls object
     """
-
+    print('Hcut to input with' + str(len(walls.getWalls())) + ' walls')
     walls=Ccut(walls, dist1, dist2/2, side)
     walls=Ccut(walls, dist1, dist2/2, side-2)
     return walls
@@ -333,6 +345,7 @@ def Xcut(walls, dist1, dist2, side):
     -------
     procedural_city_generation.building_generation.walls object
     """
+    print('Xcut to input with' + str(len(walls.getWalls())) + ' walls')
     walls=Ccut(walls, dist1, dist2/4, 0)
     walls=Ccut(walls, dist1, dist2/4, 5)
     walls=Ccut(walls, dist1, dist2/4, 10)
